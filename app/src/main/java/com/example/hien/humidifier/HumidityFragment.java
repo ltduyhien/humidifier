@@ -13,15 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * Created by hien on 04/05/2017.
- */
-
 public class HumidityFragment extends Fragment implements SensorEventListener {
-    // Store instance variables
-    private String title;
-    private int page;
-
     private SensorManager mSensorManager;
     private Sensor mHumidity;
     private boolean checkHumiditySensor;
@@ -53,8 +45,6 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        page = getArguments().getInt("someInt", 0);
-        title = getArguments().getString("someTitle");
 
         packageManager = this.getActivity().getPackageManager();
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -66,44 +56,32 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
         if(gps.canGetLocation()){
             longitude = Double.toString(gps.getLongitude());
             latitude = Double.toString(gps .getLatitude());
-        }
 
+            OpenWeather.placeIdTask asyncTask =new OpenWeather.placeIdTask(new OpenWeather.AsyncResponse() {
+                public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String sun_rise) {
+                    String humid;
+                    int humid_int;
 
-        Function.placeIdTask asyncTask =new Function.placeIdTask(new Function.AsyncResponse() {
-            public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String weather_iconText, String sun_rise) {
-                String humid;
-                int humid_int;
+                    humidValueOutdoor.setText(weather_humidity);
+                    city.setText(weather_city);
+                    time.setText("Updated: "+weather_updatedOn);
 
-                humidValueOutdoor.setText("" + weather_humidity);
-                city.setText(""+weather_city);
-                time.setText("Updated: "+weather_updatedOn);
+                    humid = weather_humidity.substring(0, weather_humidity.length() - 1);
+                    humid_int = Integer.parseInt(humid);
+                    if(humid_int < 40){
+                        humid_tips.setText("The air is pretty dried today!\nDrink more water!");
+                    } else if(40 <= humid_int && humid_int < 65){
+                        humid_tips.setText("The air is pretty damped today! Good!");
+                    } else {
+                        humid_tips.setText("Be careful! It might be raining!");
+                    }
 
-                humid = weather_humidity.substring(0, weather_humidity.length() - 1);
-                humid_int = Integer.parseInt(humid);
-                if(humid_int < 40){
-                    humid_tips.setText("The air is pretty dried today!\nDrink more water!");
-                } else if(40 <= humid_int && humid_int < 65){
-                    humid_tips.setText("The air is pretty damped today! Good!");
-                } else {
-                    humid_tips.setText("Be careful! It might be raining!");
                 }
-
-            }
-        });
-
-        asyncTask.execute(latitude,longitude); //  asyncTask.execute("Latitude", "Longitude")
-
-
+            });
+            asyncTask.execute(latitude,longitude); //  asyncTask.execute("Latitude", "Longitude")
+        }
     }
 
-    // Inflate the view for the fragment based on layout XML
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_humidity, container, false);
-
-        return view;
-    }
     @Override
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -112,17 +90,19 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
         city = (TextView) getView().findViewById(R.id.city);
         time = (TextView) getView().findViewById(R.id.time);
         humid_tips = (TextView) getView().findViewById(R.id.humid_tips);
-//        longt = (TextView) getView().findViewById(R.id.longt);
-//        latt = (TextView) getView().findViewById(R.id.latt);
-//
-//        longt.setText(longitude);
-//        latt.setText(latitude);
 
         if (checkHumiditySensor) {
             humidValueIndoor.setText("41%");
         } else {
             humidValueIndoor.setText("None");
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_humidity, container, false);
+
+        return view;
     }
 
     @Override

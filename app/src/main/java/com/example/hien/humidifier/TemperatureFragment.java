@@ -13,15 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-/**
- * Created by hien on 04/05/2017.
- */
-
 public class TemperatureFragment extends Fragment implements SensorEventListener {
-    // Store instance variables
-    private String title;
-    private int page;
-
     private SensorManager mSensorManager;
     private Sensor mTemp;
     private boolean checkTempSensor;
@@ -33,8 +25,6 @@ public class TemperatureFragment extends Fragment implements SensorEventListener
 
     PackageManager packageManager;
 
-    TextView longt;
-    TextView latt;
     TextView tempValueIndoor;
     TextView tempValueOutdoor;
     TextView city;
@@ -55,8 +45,6 @@ public class TemperatureFragment extends Fragment implements SensorEventListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        page = getArguments().getInt("someInt", 0);
-        title = getArguments().getString("someTitle");
 
         packageManager = this.getActivity().getPackageManager();
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -68,38 +56,29 @@ public class TemperatureFragment extends Fragment implements SensorEventListener
         if(gps.canGetLocation()){
             longitude = Double.toString(gps.getLongitude());
             latitude = Double.toString(gps .getLatitude());
-        }
 
+            OpenWeather.placeIdTask asyncTask =new OpenWeather.placeIdTask(new OpenWeather.AsyncResponse() {
+                public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String sun_rise) {
+                    String temp;
+                    int temp_int;
 
-        Function.placeIdTask asyncTask =new Function.placeIdTask(new Function.AsyncResponse() {
-            public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String weather_iconText, String sun_rise) {
-                String temp;
-                int temp_int;
+                    tempValueOutdoor.setText(weather_temperature);
+                    city.setText(weather_city);
+                    time.setText("Updated: "+weather_updatedOn);
 
-                tempValueOutdoor.setText("" + weather_temperature);
-                city.setText(""+weather_city);
-                time.setText("Updated: "+weather_updatedOn);
+                    temp = weather_temperature.substring(0, weather_temperature.length() - 1);
+                    temp_int = Integer.parseInt(temp);
+                    if(temp_int < 5){
+                        temp_tips.setText("It's cold! Remember to dress warm!");
+                    } else {
+                        temp_tips.setText("It's warm! GO out and enjoy!");
+                    }
 
-                temp = weather_temperature.substring(0, weather_temperature.length() - 1);
-                temp_int = Integer.parseInt(temp);
-                if(temp_int < 5){
-                    temp_tips.setText("It's cold! Remember to dress warm!");
-                } else {
-                    temp_tips.setText("It's warm! GO out and enjoy!");
                 }
+            });
 
-            }
-        });
-
-        asyncTask.execute(latitude,longitude); //  asyncTask.execute("Latitude", "Longitude")
-    }
-
-    // Inflate the view for the fragment based on layout XML
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_temperature, container, false);
-        return view;
+            asyncTask.execute(latitude,longitude); //  asyncTask.execute("Latitude", "Longitude")
+        }
     }
 
     @Override
@@ -110,19 +89,18 @@ public class TemperatureFragment extends Fragment implements SensorEventListener
         city = (TextView) getView().findViewById(R.id.city);
         time = (TextView) getView().findViewById(R.id.time);
         temp_tips = (TextView )getView().findViewById(R.id.temp_tips);
-//        longt = (TextView) getView().findViewById(R.id.longt);
-//        latt = (TextView) getView().findViewById(R.id.latt);
-//
-//        longt.setText(longitude);
-//        latt.setText(latitude);
 
         if (checkTempSensor) {
             tempValueIndoor.setText("41%");
         } else {
             tempValueIndoor.setText("None");
         }
+    }
 
-
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_temperature, container, false);
+        return view;
     }
 
     @Override
