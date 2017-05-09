@@ -82,8 +82,10 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
                 humid_int = Integer.parseInt(humid);
                 if(humid_int < 40){
                     humid_tips.setText("The air is pretty dried today!\nDrink more water!");
-                } else {
+                } else if(40 <= humid_int && humid_int < 65){
                     humid_tips.setText("The air is pretty damped today! Good!");
+                } else {
+                    humid_tips.setText("Be careful! It might be raining!");
                 }
 
             }

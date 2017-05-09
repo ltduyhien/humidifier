@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity{
         }
 
         // Returns the page title for the top indicator
-        private String tabTitles[] = new String[]{"Temperature","Humidity"};
+        private String tabTitles[] = new String[]{"Humidity", "Temperature"};
 
         @Override
         public CharSequence getPageTitle(int position) {
