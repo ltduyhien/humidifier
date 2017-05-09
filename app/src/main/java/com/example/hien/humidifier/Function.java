@@ -94,7 +94,7 @@ public class Function {
 
                     String city = json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString("country");
                     String description = details.getString("description").toUpperCase(Locale.US);
-                    String temperature = String.format("%.2f", main.getDouble("temp"))+ "°";
+                    String temperature = String.format("%d", (int) main.getDouble("temp"))+ "°";
                     String humidity = main.getString("humidity") + "%";
                     String pressure = main.getString("pressure") + " hPa";
                     String updatedOn = df.format(new Date(json.getLong("dt")*1000));

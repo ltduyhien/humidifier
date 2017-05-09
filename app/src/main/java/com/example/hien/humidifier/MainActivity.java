@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 3;
+        private static int NUM_ITEMS = 2;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -58,16 +58,14 @@ public class MainActivity extends AppCompatActivity{
                 case 0: // Fragment # 0 - This will show FirstFragment
                     return HumidityFragment.newInstance(0, "Page # 1");
                 case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return HumidityFragment.newInstance(1, "Page # 2");
-                case 2: // Fragment # 1 - This will show SecondFragment
-                    return TemperatureFragment.newInstance(2, "Page # 3");
+                    return TemperatureFragment.newInstance(1, "Page # 2");
                 default:
                     return null;
             }
         }
 
         // Returns the page title for the top indicator
-        private String tabTitles[] = new String[]{"Humidity", "Temp", "Overall"};
+        private String tabTitles[] = new String[]{"Temperature","Humidity"};
 
         @Override
         public CharSequence getPageTitle(int position) {

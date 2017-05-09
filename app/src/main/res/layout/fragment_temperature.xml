@@ -27,7 +27,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_hum"
+        android:src="@drawable/icon_temp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="64dp"
         />
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="14dp">
         <TextView
-            android:id="@+id/humid_indoor_value"
+            android:id="@+id/temp_indoor_value"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             android:textStyle="bold"
             android:textSize="42dp"/>
         <TextView
-            android:id="@+id/humid_outdoor_value"
+            android:id="@+id/temp_outdoor_value"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
     <View style="@style/SeparatorHorizontal"/>
 
     <TextView
-        android:id="@+id/humid_tips"
+        android:id="@+id/temp_tips"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -92,6 +92,7 @@
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textSize="16dp"/>
+
 </LinearLayout>
 
 
