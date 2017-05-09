@@ -53,24 +53,24 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
 
         gps = new TrackGPS(getActivity());
 
-        if(gps.canGetLocation()){
+        if (gps.canGetLocation()) {
             longitude = Double.toString(gps.getLongitude());
-            latitude = Double.toString(gps .getLatitude());
+            latitude = Double.toString(gps.getLatitude());
 
-            OpenWeather.placeIdTask asyncTask =new OpenWeather.placeIdTask(new OpenWeather.AsyncResponse() {
+            OpenWeather.placeIdTask asyncTask = new OpenWeather.placeIdTask(new OpenWeather.AsyncResponse() {
                 public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String sun_rise) {
                     String humid;
                     int humid_int;
 
                     humidValueOutdoor.setText(weather_humidity);
                     city.setText(weather_city);
-                    time.setText("Updated: "+weather_updatedOn);
+                    time.setText("Updated: " + weather_updatedOn);
 
                     humid = weather_humidity.substring(0, weather_humidity.length() - 1);
                     humid_int = Integer.parseInt(humid);
-                    if(humid_int < 40){
+                    if (humid_int < 40) {
                         humid_tips.setText("The air is pretty dried today!\nDrink more water!");
-                    } else if(40 <= humid_int && humid_int < 65){
+                    } else if (40 <= humid_int && humid_int < 65) {
                         humid_tips.setText("The air is pretty damped today! Good!");
                     } else {
                         humid_tips.setText("Be careful! It might be raining!");
@@ -78,12 +78,12 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
 
                 }
             });
-            asyncTask.execute(latitude,longitude); //  asyncTask.execute("Latitude", "Longitude")
+            asyncTask.execute(latitude, longitude); //  asyncTask.execute("Latitude", "Longitude")
         }
     }
 
     @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         humidValueIndoor = (TextView) getView().findViewById(R.id.humid_indoor_value);
         humidValueOutdoor = (TextView) getView().findViewById(R.id.humid_outdoor_value);

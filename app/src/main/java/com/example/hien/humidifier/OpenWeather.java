@@ -44,8 +44,6 @@ public class OpenWeather {
             } catch (Exception e) {
                 Log.d("Error", "Cannot process JSON results", e);
             }
-
-
             return jsonWeather;
         }
 

@@ -38,8 +38,7 @@ public class TrackGPS extends Service implements LocationListener {
     private Location getLocation() {
 
         try {
-            locationManager = (LocationManager) mContext
-                    .getSystemService(LOCATION_SERVICE);
+            locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
 
             // getting GPS status
             checkGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -47,8 +46,7 @@ public class TrackGPS extends Service implements LocationListener {
             // getting network status
             checkNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-            if (!checkGPS && !checkNetwork) {
-            } else {
+            if (!checkGPS && !checkNetwork) {} else {
                 this.canGetLocation = true;
                 // First get location from Network Provider
                 if (checkNetwork) {
@@ -67,9 +65,7 @@ public class TrackGPS extends Service implements LocationListener {
                             latitude = loc.getLatitude();
                             longitude = loc.getLongitude();
                         }
-                    }
-                    catch(SecurityException e){
-                    }
+                    } catch (SecurityException e) {}
                 }
             }
             // if GPS Enabled get lat/long using GPS Services

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     private SensorManager mSensorManager;
     private Sensor mHumidity;
     private boolean checkHumiditySensor;
@@ -65,7 +65,10 @@ public class MainActivity extends AppCompatActivity{
         }
 
         // Returns the page title for the top indicator
-        private String tabTitles[] = new String[]{"Humidity", "Temperature"};
+        private String tabTitles[] = new String[] {
+                "Humidity",
+                "Temperature"
+        };
 
         @Override
         public CharSequence getPageTitle(int position) {

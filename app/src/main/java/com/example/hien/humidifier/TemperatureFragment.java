@@ -53,22 +53,22 @@ public class TemperatureFragment extends Fragment implements SensorEventListener
 
         gps = new TrackGPS(getActivity());
 
-        if(gps.canGetLocation()){
+        if (gps.canGetLocation()) {
             longitude = Double.toString(gps.getLongitude());
-            latitude = Double.toString(gps .getLatitude());
+            latitude = Double.toString(gps.getLatitude());
 
-            OpenWeather.placeIdTask asyncTask =new OpenWeather.placeIdTask(new OpenWeather.AsyncResponse() {
+            OpenWeather.placeIdTask asyncTask = new OpenWeather.placeIdTask(new OpenWeather.AsyncResponse() {
                 public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String sun_rise) {
                     String temp;
                     int temp_int;
 
                     tempValueOutdoor.setText(weather_temperature);
                     city.setText(weather_city);
-                    time.setText("Updated: "+weather_updatedOn);
+                    time.setText("Updated: " + weather_updatedOn);
 
                     temp = weather_temperature.substring(0, weather_temperature.length() - 1);
                     temp_int = Integer.parseInt(temp);
-                    if(temp_int < 5){
+                    if (temp_int < 5) {
                         temp_tips.setText("It's cold! Remember to dress warm!");
                     } else {
                         temp_tips.setText("It's warm! GO out and enjoy!");
@@ -77,18 +77,18 @@ public class TemperatureFragment extends Fragment implements SensorEventListener
                 }
             });
 
-            asyncTask.execute(latitude,longitude); //  asyncTask.execute("Latitude", "Longitude")
+            asyncTask.execute(latitude, longitude); //  asyncTask.execute("Latitude", "Longitude")
         }
     }
 
     @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         tempValueIndoor = (TextView) getView().findViewById(R.id.temp_indoor_value);
         tempValueOutdoor = (TextView) getView().findViewById(R.id.temp_outdoor_value);
         city = (TextView) getView().findViewById(R.id.city);
         time = (TextView) getView().findViewById(R.id.time);
-        temp_tips = (TextView )getView().findViewById(R.id.temp_tips);
+        temp_tips = (TextView) getView().findViewById(R.id.temp_tips);
 
         if (checkTempSensor) {
             tempValueIndoor.setText("41%");
@@ -98,7 +98,7 @@ public class TemperatureFragment extends Fragment implements SensorEventListener
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_temperature, container, false);
         return view;
     }
