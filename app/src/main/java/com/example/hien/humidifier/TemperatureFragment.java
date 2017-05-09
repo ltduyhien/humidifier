@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 /**
  * Created by hien on 04/05/2017.
@@ -39,8 +38,8 @@ public class TemperatureFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_humidity, container, false);
-        TextView tvLabel = (TextView) view.findViewById(R.id.humid_text);
-        tvLabel.setText(page + " -- " + title);
+//        TextView tvLabel = (TextView) view.findViewById(R.id.humid_text);
+//        tvLabel.setText(page + " -- " + title);
         return view;
     }
 }

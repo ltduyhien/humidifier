@@ -8,7 +8,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +25,18 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mHumidity;
     private boolean checkHumiditySensor;
+
+    private TrackGPS gps;
+
+    String longitude;
+    String latitude;
+
     PackageManager packageManager;
-    TextView humidityText;
+
+    TextView longt;
+    TextView latt;
+    TextView humidValueIndoor;
+    TextView humidValueOutdoor;
 
     // newInstance constructor for creating fragment with arguments
     public static HumidityFragment newInstance(int page, String title) {
@@ -47,18 +56,31 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
         title = getArguments().getString("someTitle");
 
         packageManager = this.getActivity().getPackageManager();
-
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         mHumidity = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         checkHumiditySensor = packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_AMBIENT_TEMPERATURE);
 
-        humidityText = (TextView) getActivity().findViewById(R.id.humidity);
+        gps = new TrackGPS(getActivity());
 
-        if (checkHumiditySensor) {
-            humidityText.setText("Humidity level is available");
-        } else {
-            humidityText.setText("Sensor is not available");
+        if(gps.canGetLocation()){
+            longitude = Double.toString(gps.getLongitude());
+            latitude = Double.toString(gps .getLatitude());
+
+
         }
+        else
+        {
+            gps.showSettingsAlert();
+        }
+
+
+        Function.placeIdTask asyncTask =new Function.placeIdTask(new Function.AsyncResponse() {
+            public void processFinish(String weather_city, String weather_description, String weather_temperature, String weather_humidity, String weather_pressure, String weather_updatedOn, String weather_iconText, String sun_rise) {
+                humidValueOutdoor.setText("" + weather_humidity);
+            }
+        });
+
+        asyncTask.execute(latitude,longitude); //  asyncTask.execute("Latitude", "Longitude")
     }
 
     // Inflate the view for the fragment based on layout XML
@@ -66,9 +88,27 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_humidity, container, false);
-        TextView tvLabel = (TextView) view.findViewById(R.id.humid_text);
-        tvLabel.setText(page + " -- " + title);
+
         return view;
+    }
+    @Override
+    public void onActivityCreated (Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        humidValueIndoor = (TextView) getView().findViewById(R.id.humid_indoor_value);
+        humidValueOutdoor = (TextView) getView().findViewById(R.id.humid_outdoor_value);
+        longt = (TextView) getView().findViewById(R.id.longt);
+        latt = (TextView) getView().findViewById(R.id.latt);
+
+        longt.setText(longitude);
+        latt.setText(latitude);
+
+        if (checkHumiditySensor) {
+            humidValueIndoor.setText("41%");
+        } else {
+            humidValueIndoor.setText("None");
+        }
+
+
     }
 
     @Override
@@ -79,7 +119,7 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
     @Override
     public final void onSensorChanged(SensorEvent event) {
         float millibars_of_pressure = event.values[0];
-        Log.d(getClass().getName(), "value = " + millibars_of_pressure);
+
     }
 
     @Override
@@ -94,5 +134,11 @@ public class HumidityFragment extends Fragment implements SensorEventListener {
         // Be sure to unregister the sensor when the activity pauses.
         super.onPause();
         mSensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        gps.stopUsingGPS();
     }
 }

@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/humid_text"
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center" />
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_hum"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="64dp"
+        />
+    <View style="@style/SeparatorHorizontal"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Indoor"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="14dp"/>
+        <!--<View style="@style/SeparatorVertical"/>-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Outdoor"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="14dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp">
+        <TextView
+            android:id="@+id/humid_indoor_value"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:textSize="48dp"/>
+        <TextView
+            android:id="@+id/humid_outdoor_value"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:textSize="48dp"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/latt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Indoor"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="14dp"/>
+    <TextView
+        android:id="@+id/longt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Outdoor"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="14dp"
+        />
+    <View style="@style/SeparatorHorizontal"/>
+
+</LinearLayout>
+
+

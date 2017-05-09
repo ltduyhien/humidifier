@@ -21,8 +21,20 @@
     <!-- for text -->
     <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/colorWhite40</item>
         <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="SeparatorHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/colorWhite20</item>
+    </style>
+
+    <style name="SeparatorVertical">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">1dp</item>
+        <item name="android:background">@color/colorWhite20</item>
     </style>
 
 </resources>
